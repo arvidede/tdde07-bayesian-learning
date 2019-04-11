@@ -67,9 +67,12 @@ b <- max(x_ordered[1:i])
 
 plot(density(G), 
      col='blue', 
-     xlim=c(0,1), 
-     ylim=c(0,9), 
-     main="95% credibility interval")
+     xlim=c(0.1,0.8), 
+     ylim=c(0,9),
+     main='')
+legend('topright',
+       legend = c('Highest Posterior Density', 'Equal Tail Interval'),
+       fill = c('green', 'red'))
 abline(v=cred_int[1], col='red')
 abline(v=cred_int[2], col='red')
 abline(v=a, col='green')

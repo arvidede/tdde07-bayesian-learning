@@ -14,6 +14,7 @@ mises <- function(k, y, mu) {
 }
 
 kPos <- function(k, mu,y) {
+  #prod since independent
   return ( prod( mises(k, y, mu) ) * dexp(k))
 }
 
@@ -22,9 +23,11 @@ for (k in kSeq){
   posterior = c(posterior, c(kPos(k, mu, y)))
 }
 
-plot(kSeq, posterior)
+plot(kSeq, posterior,type='l')
+legend('topright', legend='Mode', fill='red')
 
 
 # B: Compute the posterior mode of k
 
 kPosMode <- kSeq[which.max(posterior)]
+abline(v=kPosMode, col='red', lwd=1)
