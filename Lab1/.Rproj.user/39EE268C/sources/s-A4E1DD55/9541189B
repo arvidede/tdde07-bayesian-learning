@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1555013011475.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "9541189B",
+    "lastKnownWriteTime" : 1555020544,
+    "last_content_update" : 1555020544464,
+    "path" : "~/Studier/TDDE07/Lab1/Lab1.Rmd",
+    "project_path" : "Lab1.Rmd",
+    "properties" : {
+        "cursorPosition" : "23,36",
+        "scrollLine" : "17"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
