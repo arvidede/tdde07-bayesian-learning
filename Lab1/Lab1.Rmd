@@ -40,12 +40,14 @@ Visualization of the log odds $\phi = log(\frac{\phi}{1-\phi})$ by simulation, u
 
 ## 2a)
 
-Simulation of the posterior distribution of $\sigma^{2}$ with 10,000 draws (histogram) compared to the theoretical distribution (line).
+Simulation of the posterior distribution of $\sigma^{2}$ with 10,000 draws (histogram) compared to the theoretical distribution (line).'
+
 ![Posterior of $\sigma^{2}$ by draws and the theoretical posterior](assets/lab_1_2_a.png)
 
 ## 2b)
 
 The posterior distribution of the Gini coefficient based on the draws in a).
+
 ![Gini Coefficient](assets/lab_1_2_b.png)
 
 ## 2c)
@@ -55,6 +57,7 @@ The posterior distribution of the Gini coefficient based on the draws in a).
 \newpage
 
 #3. Bayesian inference for the concentration parameter in the von Mises distribution
+
 The distribution of $\kappa$ was calculated as the product of the likelihood and the prior, where the likelihood was assumed to be the product of the individual probabilities due to independent observations.
 
 ![Posterior distribution and mode ](assets/lab_1_3_ab.png)
