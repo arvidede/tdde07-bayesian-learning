@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## 1a)
 Random draws 
 
-The posterior converges towards the true values with rising number of draw, represented below with 10, 100, 100 draws.
+The posterior converges towards the true values with rising number of draw, represented below with 10, 100, 1000 draws.
 
 ![Convergence](assets/lab_1_1_a.png)
 
@@ -40,10 +40,12 @@ Visualization of the log odds $\phi = log(\frac{\phi}{1-\phi})$ by simulation, u
 
 ## 2a)
 
+Simulation of the posterior distribution of $\sigma^{2}$ with 10,000 draws (histogram) compared to the theoretical distribution (line).
 ![Posterior of $\sigma^{2}$ by draws and the theoretical posterior](assets/lab_1_2_a.png)
 
 ## 2b)
 
+The posterior distribution of the Gini coefficient based on the draws in a).
 ![Gini Coefficient](assets/lab_1_2_b.png)
 
 ## 2c)
