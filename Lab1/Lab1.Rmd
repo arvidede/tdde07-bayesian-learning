@@ -19,7 +19,6 @@ knitr::opts_chunk$set(echo = TRUE)
 #1. Bernoulli ... again
 
 ## 1a)
-Random draws 
 
 The posterior converges towards the true values with rising number of draw, represented below with 10, 100, 1000 draws.
 
@@ -28,6 +27,8 @@ The posterior converges towards the true values with rising number of draw, repr
 ## 1b)
 
 The posterior was simulated with 10000 draws, resulting in $P(\theta < 0.4 | y) = 0.0043$. Real value using pbeta = 0.003973.
+
+\newpage
 
 ## 1c)
 Visualization of the log odds $\phi = log(\frac{\phi}{1-\phi})$ by simulation, using 10000 draws.
@@ -44,13 +45,18 @@ Simulation of the posterior distribution of $\sigma^{2}$ with 10,000 draws (hist
 
 ![Posterior of $\sigma^{2}$ by draws and the theoretical posterior](assets/lab_1_2_a.png)
 
+\newpage
+
 ## 2b)
 
 The posterior distribution of the Gini coefficient based on the draws in a).
 
 ![Gini Coefficient](assets/lab_1_2_b.png)
 
+\newpage
+
 ## 2c)
+Due to the long right tail, the Equal Tail Interval was slightliy shifted to the right. The Highest Posterior Density interval produced a better representatition of the data.
 
 ![95% Credibility interval](assets/lab_1_2_c.png)
 
