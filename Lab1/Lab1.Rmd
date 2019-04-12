@@ -19,13 +19,15 @@ knitr::opts_chunk$set(echo = TRUE)
 #1. Bernoulli ... again
 
 ## 1a)
-En massa text här.
+Random draws 
+
+The posterior converges towards the true values with rising number of draw, represented below with 10, 100, 100 draws.
 
 ![Convergence](assets/lab_1_1_a.png)
 
 ## 1b)
 
-The posterior was simulated with 10000 draws, resulting in $P(\theta < 0.4 | y) = 0.0043$.
+The posterior was simulated with 10000 draws, resulting in $P(\theta < 0.4 | y) = 0.0043$. Real value using pbeta = 0.003973.
 
 ## 1c)
 Visualization of the log odds $\phi = log(\frac{\phi}{1-\phi})$ by simulation, using 10000 draws.

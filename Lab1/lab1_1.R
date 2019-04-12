@@ -22,6 +22,7 @@ nDraws <- 10000
 random = rbeta(nDraws, alpha+s, beta+(n-s))
 val <- random * (random < 0.4)
 print(sum(val>0)/length(val))
+real <- pbeta(.4, alpha + s, beta + (n-s))
 
 # 1c
 nDraws <- 10000
