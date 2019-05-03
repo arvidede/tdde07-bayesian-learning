@@ -48,22 +48,6 @@ LogPostLogistic <- function(betaVect,y,X,mu,Sigma){
   return(logLik + logPrior)
 }
 
-LogPostProbit <- function(betaVect,y,X,mu,Sigma){
-  nPara <- length(betaVect);
-  linPred <- X%*%betaVect;
-                                      
-  # The following is a more numerically stable evaluation of the log-likelihood in my slides: 
-  # logLik <- sum(y*log(pnorm(linPred)) + (1-y)*log(1-pnorm(linPred)) )
-  logLik <- sum(y*pnorm(linPred, log.p = TRUE) + (1-y)*pnorm(linPred, log.p = TRUE, lower.tail = FALSE))
-
-  # evaluating the prior
-  logPrior <- dmvnorm(betaVect, matrix(0,nPara,1), Sigma, log=TRUE);
-  
-  # add the log prior and log-likelihood together to get log posterior
-  return(logLik + logPrior)
-  
-}
-
 # Calling the optimization routine Optim. Note the auxilliary arguments that are passed to the function logPost
 # Note how I pass all other arguments of the function logPost (i.e. all arguments except betaVect which is the one that we are trying to optimize over) to the R optimizer.
 # The argument control is a list of options to the optimizer. Here I am telling the optimizer to multiply the objective function (i.e. logPost) by -1. This is because
@@ -74,11 +58,7 @@ initVal <- as.vector(rep(0,dim(X)[2]));
 # Or a random starting vector: as.vector(rnorm(dim(X)[2]))
 # Set as OLS estimate: as.vector(solve(crossprod(X,X))%*%t(X)%*%y); # Initial values by OLS
 
-if (Probit==1){
-  logPost = LogPostProbit;
-} else{
-  logPost = LogPostLogistic;
-}
+logPost = LogPostLogistic;
   
 OptimResults<-optim(initVal,logPost,gr=NULL,y,X,mu,Sigma,method=c("BFGS"),control=list(fnscale=-1),hessian=TRUE)
 
