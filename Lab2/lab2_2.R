@@ -34,9 +34,47 @@ logPost <- function(beta,y,X,mu,Sigma) {
 
 OptimResults<-optim(initBetas,logPost,gr=NULL,y,X,mu,sigma,method=c("BFGS"),control=list(fnscale=-1),hessian=TRUE)
 
-postHessian <- sqrt(diag(-solve(OptimResults$hessian)))[7]
-betaMode <- OptimResults$par[7]
+postCov <- -solve(OptimResults$hessian)
+st_div <- sqrt(diag(postCov))
+betaMode <- OptimResults$par
 nSmallChild <- postDraws[,7]
-postDraws <- dnorm(x=nSmallChild, postHessian)
-plot(postDraws)
+postDist <- dnorm(x = seq(0,10,0.01), mean = betaMode[7], sd = st_div[7])
+
+# plot posterior distribution NSmallChild parameter
+cred_int <- quantile(postDraws, c(0.025, 0.975))
+plot(postDist, 
+     xlim = c(0,100),
+     ylim = c(0,0.002),
+     type = 'l')
+abline(v = cred_int[1], col='red')
+abline(v = cred_int[2], col='blue')
+
+########## c ###########
+y <- c(constant = 1, 
+       husbandInc = 10,
+       educYears = 8, 
+       expYears = 10,
+       expYears2 = 1,
+       age = 40, 
+       nSmallChild = 1,
+       nBigChild = 1)
+
+n_draws <- 1000
+
+predDist <- function(n, beta, sigma, y) {
+  y_draws = c()
+  for (i in 1:n) {
+    #beta draw
+    betaDraw = as.vector(rmvnorm(1, mean = beta, sigma = sigma))
+    #probability
+    p <- exp(y%*%betaDraw)/(1+exp(y%*%betaDraw))
+    #prediction of y
+    y_draw = rbinom(1, 1, p)
+    y_draws = c(y_draws, y_draw)
+  }
+  return (y_draws)
+}
+
+draws = predDist(n_draws, betaMode, postCov, y)
+workProb <- sum(draws == 1) 
 
