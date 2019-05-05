@@ -23,11 +23,22 @@ knitr::opts_chunk$set(echo = TRUE)
 Before looking at the data, we came to the conclusion that the intercept should be about -10 degrees, with a cyclic temperature throughout the year and a maximum at 7 months.
 
 $\mu_{0}$ = [-10, 100, -90]
+$\omega_{0}$ = $$
+\left(\begin{array}{cc} 
+15 & 0 & 0\\
+0 & 15 & 0\\
+0 & 0 & 15\\
+\end{array}\right)
+$$ 
 
 
 ![Plotting th chosen hyperparameters](plots/lab2_1_a)
 
 \newpage
+
+## 1a)
+
+
 
 # 1 - Code
 

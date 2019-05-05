@@ -1,11 +1,13 @@
-######## D ########
-
 womenData = read.table("WomenWork.txt", header=TRUE)
 
+
+######## A ########
 # Added a zero in the model formula so that R doesn’t add an extra intercept
 # A . in the model formula means to add all other variables in the dataset as features
 glmModel <- glm(Work ~ 0 + ., data = womenData, family = binomial)
 
+
+######## B ########
 # Param setup
 tau <- 10
 nParams <- 8
@@ -49,7 +51,9 @@ plot(postDist,
 abline(v = cred_int[1], col='red')
 abline(v = cred_int[2], col='blue')
 
-########## c ###########
+
+
+########## C ###########
 y <- c(constant = 1, 
        husbandInc = 10,
        educYears = 8, 
@@ -76,5 +80,5 @@ predDist <- function(n, beta, sigma, y) {
 }
 
 draws = predDist(n_draws, betaMode, postCov, y)
-workProb <- sum(draws == 1) 
+workProb <- sum(draws == 1)
 

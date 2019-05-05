@@ -5,10 +5,10 @@ data = read.table("TempLinkoping.txt", header=TRUE)
 ######## A ########
 I <- diag(3)
 mu <- c(-10, 100, -90)
-omega <- 1 * I
+omega <- 10 * I
 v <- 4
 s2 <- 8
-x <- seq(0, 10, by=0.01)
+x <- seq(0, 10, by=0.01) 
 
 
 # Inverse chisquare from lab1  
