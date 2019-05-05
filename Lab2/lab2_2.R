@@ -84,4 +84,5 @@ predDist <- function(n, beta, sigma, y) {
 
 draws = predDist(n_draws, betaMode, postCov, y)
 workProb <- sum(draws == 1)
+print(workProb/n_draws)
 
