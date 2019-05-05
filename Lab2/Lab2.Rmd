@@ -1,3 +1,38 @@
+---
+title: "TDDE07 - Lab 2"
+author:
+- "Arvid Edenheim - arved490"
+- "Sophie Lindberg - sopli268"
+date: "`r Sys.Date()`"
+output: pdf_document
+header-includes:
+  \usepackage{float}
+  \floatplacement{figure}{H}
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\newpage
+
+# 1. Linear and polynomial regression
+
+## 1a)
+
+Before looking at the data, we came to the conclusion that the intercept should be about -10 degrees, with a cyclic temperature throughout the year and a maximum at 7 months.
+
+$\mu_{0}$ = [-10, 100, -90]
+
+
+![Plotting th chosen hyperparameters](plots/lab2_1_a)
+
+\newpage
+
+# 1 - Code
+
+```{r, echo=TRUE, eval=FALSE}
+
 library(mvtnorm)
 library(invgamma)
 data = read.table("TempLinkoping.txt", header=TRUE)
@@ -5,7 +40,7 @@ data = read.table("TempLinkoping.txt", header=TRUE)
 ######## A ########
 I <- diag(3)
 mu <- c(-10, 100, -90)
-omega <- 1 * I
+omega <- 10 * I
 v <- 4
 s2 <- 8
 x <- seq(0, 10, by=0.01)
@@ -92,6 +127,14 @@ new_mu = c(mu_n, rep(0, 5))
 new_omega <- 100 * diag(8)
 new_omega[1:3,1:3] = omega_n
 
+```
+
+\newpage
+
+# 2 - Code
+
+```{r, echo=TRUE, eval=FALSE}
 
 
 
+```
