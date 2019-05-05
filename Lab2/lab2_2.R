@@ -1,5 +1,5 @@
 womenData = read.table("WomenWork.txt", header=TRUE)
-
+library(mvtnorm)
 
 ######## A ########
 # Added a zero in the model formula so that R doesn’t add an extra intercept
@@ -39,15 +39,18 @@ OptimResults<-optim(initBetas,logPost,gr=NULL,y,X,mu,sigma,method=c("BFGS"),cont
 postCov <- -solve(OptimResults$hessian)
 st_div <- sqrt(diag(postCov))
 betaMode <- OptimResults$par
-nSmallChild <- postDraws[,7]
+nSmallChild <- betaMode[7]
 postDist <- dnorm(x = seq(0,10,0.01), mean = betaMode[7], sd = st_div[7])
 
 # plot posterior distribution NSmallChild parameter
-cred_int <- quantile(postDraws, c(0.025, 0.975))
+cred_int <- quantile(postDist, c(0.025, 0.975))
 plot(postDist, 
-     xlim = c(0,100),
+     xlim = c(0,20),
      ylim = c(0,0.002),
-     type = 'l')
+     type = 'l', 
+     xlab = 'Beta', 
+     ylab = '', 
+     main = 'Posterior distribution of NSmallChild parameter')
 abline(v = cred_int[1], col='red')
 abline(v = cred_int[2], col='blue')
 
