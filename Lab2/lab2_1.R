@@ -72,7 +72,7 @@ hist(beta_post[,2], freq = FALSE, xlab = "Beta 1")
 hist(beta_post[,3], freq = FALSE, xlab = "Beta 2")
 dev.off()
 
-plot(data$temp, type='p', col='lightgray')
+plot(data$temp, type='p', col='lightgray', main = 'Data Plot', xlab = "Time", ylab = "Temperature")
 lines(y_med, type='l')
 lines(y_low, type='l')
 lines(y_up, type='l')
@@ -80,7 +80,7 @@ lines(y_up, type='l')
 ######## C ########
 
 x_max = - 366 * beta_post[,2]/(2 * beta_post[,3])
-hist(x_max)
+hist(x_max, freq = FALSE, main = "Max Value", xlab = "Day")
 
 ######## D ########
 

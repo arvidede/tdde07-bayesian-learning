@@ -24,7 +24,7 @@ Before looking at the data, we came to the conclusion that the intercept should 
 
 $\mu_{0}$ = [-10, 100, -90]
 $\omega_{0}$ = $$
-\left(\begin{array}{cc} 
+\left(\begin{array}{ccc} 
 15 & 0 & 0\\
 0 & 15 & 0\\
 0 & 0 & 15\\
@@ -32,13 +32,46 @@ $\omega_{0}$ = $$
 $$ 
 
 
-![Plotting th chosen hyperparameters](plots/lab2_1_a)
+![Plotting the chosen hyperparameters](plots/lab2_1_a)
 
 \newpage
 
-## 1a)
+## 1b)
 
+Simulating from the joint posterior distribution of the parameters resulted in the following marginal posteriors. 
 
+![Plotting the marginal posteriors](plots/lab2_1_b)
+
+The figure below shows the plotted data along with the curve for the posterior median of the regression function. Furthermore, a 95 % credible interval has been calculated. The interval bands doesn't contain most od the data points due to the high credibility. 
+
+![Plotting the marginal posteriors](plots/lab2_1_data)
+
+## 1c) 
+
+Finding the maximum value gave the following result. 
+
+![Plotting the marginal posteriors](plots/lab2_1_c)
+
+## 1d)
+
+Due to suspicion that the introduced variables might not be needed, we set the prior to 
+
+$\mu_{0}$ = [-10, 100, -90, 0, 0, 0, 0]
+
+For the omega prior we want low variance (high bias to avoid overfitting), thus high diagonal values in omega_0. We set the same prior values for the first three parameters as before. The rest of the values are set to zero since we can't say anything about the covariance between the new variables.
+
+$\omega_{0}$ = $$
+\left(\begin{array}{cccccccc} 
+10 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 10 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 &1 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 100 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 100 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 100 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 100 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 100\\
+\end{array}\right)
+$$ 
 
 # 1 - Code
 
