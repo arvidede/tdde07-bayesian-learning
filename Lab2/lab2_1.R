@@ -67,20 +67,25 @@ for (i in 1:366) {
 }
 
 par(mfrow=c(1,3))
-hist(beta_post[,1], freq = FALSE, xlab = "Beta 0")
-hist(beta_post[,2], freq = FALSE, xlab = "Beta 1")
-hist(beta_post[,3], freq = FALSE, xlab = "Beta 2")
+hist(beta_post[,1], freq = FALSE, xlab = "Beta 0", main='')
+hist(beta_post[,2], freq = FALSE, xlab = "Beta 1", main='')
+hist(beta_post[,3], freq = FALSE, xlab = "Beta 2", main='')
 dev.off()
 
 plot(data$temp, type='p', col='lightgray', main = 'Data Plot', xlab = "Time", ylab = "Temperature")
 lines(y_med, type='l')
-lines(y_low, type='l')
-lines(y_up, type='l')
+lines(y_low, type='l', col='red')
+lines(y_up, type='l', col='blue')
+
+legend("bottomright", 
+       legend = c("Mean","Lower", "Upper"),
+       fill = c("black", "blue", "red"))
 
 ######## C ########
 
 x_max = - 366 * beta_post[,2]/(2 * beta_post[,3])
-hist(x_max, freq = FALSE, main = "Max Value", xlab = "Day")
+hist(x_max, main='', xlab='Time')
+dev.off()
 
 ######## D ########
 

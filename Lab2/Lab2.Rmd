@@ -20,16 +20,20 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 1a)
 
-Before looking at the data, we came to the conclusion that the intercept should be about -10 degrees, with a cyclic temperature throughout the year and a maximum at 7 months.
+Before looking at the data, we came to the conclusion that the intercept should be about -10 degrees, with a cyclic temperature throughout the year and a maximum at 7 months. The variance was adjusted in order for the prior regression curve to be in accordance with our prior beliefs. Draws were made from the prior and plotted along with the temperature readings for comparison, as can be seen in Figure 1.
 
 $\mu_{0}$ = [-10, 100, -90]
-$\omega_{0}$ = $$
+
+$v_0 = 4\\$
+$\sigma_0^{2} = 8\\$
+
+$\Omega_{0}$ = $$
 \left(\begin{array}{ccc} 
-15 & 0 & 0\\
-0 & 15 & 0\\
-0 & 0 & 15\\
+10 & 0 & 0\\
+0 & 10 & 0\\
+0 & 0 & 10\\
 \end{array}\right)
-$$ 
+$$
 
 
 ![Plotting the chosen hyperparameters](plots/lab2_1_a)
@@ -38,40 +42,77 @@ $$
 
 ## 1b)
 
-Simulating from the joint posterior distribution of the parameters resulted in the following marginal posteriors. 
+![Marginal posterior of the beta parameters](plots/lab2_1_b_hist)
 
-![Plotting the marginal posteriors](plots/lab2_1_b)
+\newpage
 
-The figure below shows the plotted data along with the curve for the posterior median of the regression function. Furthermore, a 95 % credible interval has been calculated. The interval bands doesn't contain most od the data points due to the high credibility. 
+The figure below shows the plotted data along with the curve for the posterior median of the regression function. Furthermore, a 95 % credible interval has been calculated. The interval bands doesn't contain most od the data points due to the high credibility.
 
-![Plotting the marginal posteriors](plots/lab2_1_data)
+![Posterior credible intervals](plots/lab2_1_B)
 
-## 1c) 
+\newpage
 
-Finding the maximum value gave the following result. 
+## 1c)
 
-![Plotting the marginal posteriors](plots/lab2_1_c)
+The highest expected temperature was calculated using the derivative of the time function, with respect to time.
+
+$$\begin{aligned}
+\frac{\partial f}{\partial t} = \beta_1 + 2\beta_2 t = 0 \iff t = -\frac{\beta_1}{2\beta_2}\\
+0\leq t\leq 1 \Rightarrow 0\leq \bar{x} \leq 366 \iff \bar{x} = 366 * t\\
+\end{aligned}$$
+
+The histogram of $\bar{x}$ can be seen in Figure 4.
+
+![$\bar{x}$](plots/lab2_1_c.png)
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrrr}
+  \hline
+ & Min. & 1st Qu. & Median. & Mean & 3rd Qu. & Max. \\ 
+  \hline
+1 & 194.54 & 198.30 & 199.27 & 199.29 & 200.26 & 203.37 \\ 
+   \hline
+\end{tabular}
+\caption{Summary of $\bar{x}$} 
+\end{table}
+
+This is in line with the output from `which.max(y_med)` = 200, where `y_med` is the posterior mean from a).
+
+\newpage
 
 ## 1d)
 
-Due to suspicion that the introduced variables might not be needed, we set the prior to 
+The new beta parameters would be set to zeror due to suspicion that the introduced variables might not be needed.
+Regarding the covariance matrix, we want low variance (high bias) to avoid overfitting => High diagonal values in $\Omega_0$ for the new variables, with the rest set to zero since we can't say anything about the covariance between the new variables.
 
-$\mu_{0}$ = [-10, 100, -90, 0, 0, 0, 0]
 
-For the omega prior we want low variance (high bias to avoid overfitting), thus high diagonal values in omega_0. We set the same prior values for the first three parameters as before. The rest of the values are set to zero since we can't say anything about the covariance between the new variables.
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrrrrr}
+  \hline
+ $\beta_0$. & $\beta_1$ & $\beta_2$ & $\beta_3$ & $\beta_4$ & $\beta_5$ & $\beta_6$ & $\beta_7$\\ 
+  \hline
+-11.53113 & 98.43113 & -90.38911 & 0 & 0 & 0 & 0 & 0\\ 
+   \hline
+\end{tabular}
+\caption{$\mu_0$} 
+\end{table}
 
-$\omega_{0}$ = $$
-\left(\begin{array}{cccccccc} 
-10 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
-0 & 10 & 0 & 0 & 0 & 0 & 0 & 0\\
-0 & 0 &1 0 & 0 & 0 & 0 & 0 & 0\\
-0 & 0 & 0 & 100 & 0 & 0 & 0 & 0\\
-0 & 0 & 0 & 0 & 100 & 0 & 0 & 0\\
-0 & 0 & 0 & 0 & 0 & 100 & 0 & 0\\
-0 & 0 & 0 & 0 & 0 & 0 & 100 & 0\\
-0 & 0 & 0 & 0 & 0 & 0 & 0 & 100\\
-\end{array}\right)
-$$ 
+$\Omega_0$ = $$
+\begin{pmatrix}
+376 & 183.5 & 122.5 & 0 & 0 & 0 & 0 & 0 \\
+183.5 & 132.5 & 92.5 & 0 & 0 & 0 & 0 & 0 \\
+122.5 & 92.5 & 83.7 & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 100 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 100 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 100 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 0 & 100 & 0 \\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 100 \\
+\end{pmatrix}
+$$
+
+\newpage
 
 # 1 - Code
 
@@ -87,7 +128,7 @@ mu <- c(-10, 100, -90)
 omega <- 10 * I
 v <- 4
 s2 <- 8
-x <- seq(0, 10, by=0.01)
+x <- seq(0, 10, by=0.01) 
 
 
 # Inverse chisquare from lab1  
@@ -146,20 +187,25 @@ for (i in 1:366) {
 }
 
 par(mfrow=c(1,3))
-hist(beta_post[,1], freq = FALSE, xlab = "Beta 0")
-hist(beta_post[,2], freq = FALSE, xlab = "Beta 1")
-hist(beta_post[,3], freq = FALSE, xlab = "Beta 2")
+hist(beta_post[,1], freq = FALSE, xlab = "Beta 0", main='')
+hist(beta_post[,2], freq = FALSE, xlab = "Beta 1", main='')
+hist(beta_post[,3], freq = FALSE, xlab = "Beta 2", main='')
 dev.off()
 
 plot(data$temp, type='p', col='lightgray')
 lines(y_med, type='l')
-lines(y_low, type='l')
-lines(y_up, type='l')
+lines(y_low, type='l', col='red')
+lines(y_up, type='l', col='blue')
+
+legend("bottomright", 
+       legend = c("Mean","Lower", "Upper"),
+       fill = c("black", "blue", "red"))
 
 ######## C ########
 
 x_max = - 366 * beta_post[,2]/(2 * beta_post[,3])
-hist(x_max)
+hist(x_max, main='', xlab='Time')
+dev.off()
 
 ######## D ########
 
@@ -178,7 +224,6 @@ new_omega[1:3,1:3] = omega_n
 # 2 - Code
 
 ```{r, echo=TRUE, eval=FALSE}
-
 
 
 ```
