@@ -49,6 +49,7 @@ gaussianSample <- function(theta, sigma, c) {
   return (val)
 }
 
+
 RWMSampler <- function(c, it, fn, ...) {
   accRate <- 0
   sample <- c()
@@ -57,19 +58,18 @@ RWMSampler <- function(c, it, fn, ...) {
     candidate <- gaussianSample(prev, postCov, c)
     alpha <- min(1,exp(fn(prev, ...) - fn(candidate, ...)))
     u <- runif(1, 0, 1)
-    
     if (alpha <= u) {
       # accept candidate
       prev <- candidate
       accRate <- accRate + 1
       # as matrix
-      sample <- c(sample, prev)
+      sample <- rbind(sample, prev)
     }
   }
   return (sample)
 }
 
 sample = RWMSampler(1,10000, logPois, data$nBids, X)
-plot(sample[,1], type='l')
+plot(sample[,3], type='l')
 
 
