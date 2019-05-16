@@ -50,10 +50,10 @@ gaussianSample <- function(theta, sigma, c) {
 }
 
 
-RWMSampler <- function(c, it, fn, ...) {
+RWMSampler <- function(c, it, initBeta, fn, ...) {
   accRate <- 0
   sample <- c()
-  prev <- gaussianSample(betaMode, postCov, c)
+  prev <- gaussianSample(initBeta, postCov, c)
   for (i in 1:it) {
     candidate <- gaussianSample(prev, postCov, c)
     alpha <- min(1,exp(fn(prev, ...) - fn(candidate, ...)))
@@ -69,7 +69,7 @@ RWMSampler <- function(c, it, fn, ...) {
   return (sample)
 }
 
-sample = RWMSampler(1,50000, logPois, data$nBids, X)
+sample = RWMSampler(1,50000,betaMode, logPois, data$nBids, X)
 plot(sample[,1], sample[,2],
      type='l',
      xlab = expression(beta[1]),
