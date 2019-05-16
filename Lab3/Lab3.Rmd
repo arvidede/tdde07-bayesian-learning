@@ -59,14 +59,16 @@ for (i in 1:iter) {
 ```
 By plotting the trajectories of the sampled Markov chains it can be seen that $\sigma$ and $\mu$ converges around 39 and 32 respectively. 
 
-![Analyzing the convergence](plots/3_1_a.png)
+![Analyzing the convergence](plots/3_1_a.png){width=50%}
 
 ##1b) - Mixture normal model
 
 The results of the Gibbs sampling data augmentation algorithm given in NormalMixtureModel.R resulted can be seen below. 
 
-![The convergence of $\mu$ ](plots/lab3_1b_mu.png)
-![The convergence of $\sigma$ ](plots/lab3_1b_sigma.png)
+<center>
+![The convergence of mu](plots/lab3_1b_mu.png){width=50%} ![The convergence of sigma ](plots/lab3_1b_sigma.png){width=50%}
+</center>
+
 
 Both $\mu$ and $\sigma$ converged after a few samples. 
 
@@ -74,10 +76,27 @@ Both $\mu$ and $\sigma$ converged after a few samples.
 
 The figure below shows a comparison between the samplers. The blue line represents the normal density from excercise a, and the green line represents the mixture of normals density from excercise b. Both of the models have limitations when it comes to fit the data. 
 
-![Graphical comparison ](plots/lab3_1c.png)
+![Graphical comparison ](plots/lab3_1_c.png){width=50%}
+
+\newpage
+
+#2 - Metropolis Random Walk for Poisson regression
+
+##2a) 
+
+The absolute values of the parameters obtained by a maximum likelihood estimation is shown below. 
+<center>
+![Significance of covariates](plots/lab3_2_coeff.png){width=50%}
+</center>
+
+The figure shows that the ninth parameter, meaning minBidShare, is the most significant covariate, whereas PowerSeller is the least significant. 
+
+##2b)
+
+The bayesian regression resulted in the following values for $\beta$s
 
 \begin{table}[ht]
-\centering
+\centering:
 \begin{tabular}{rrrrrrrrr}
   \hline
  Const & PowerSeller & VerifyID & Sealed & Minblem & MajBlem & LargNeg & LogBook MinBidShare\\ 
@@ -89,3 +108,11 @@ The figure below shows a comparison between the samplers. The blue line represen
 \caption{$\mu_0$} 
 \end{table}
 
+##2c)
+
+The result below is from 50 000 sample draws from the posterior. In order to analyze the convergence, $\beta$[1] and $\beta$[2] are plotted in the same plot. As can be seen, most of the samples are drawn from a oval-shaped distribution centered around the modes of the betas. Thus, the algorithm has converged. 
+
+![Significance of covariates](plots/lab3_2c.png){width=50%}
+
+
+ 

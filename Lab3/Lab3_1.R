@@ -60,8 +60,9 @@ plot(mu, sqrt(sigma2),type='l')
 xGrid <- seq(0,400,by=(100/n))
 ndens <- dnorm(xGrid, mean(mu), mean(sqrt(sigma2)))
 
-hist(data$x, 20, main = 'Plot 1c)', freq = FALSE)
+hist(data$x, 20, main = 'Plot 1c)', freq = FALSE, xlab='')
 lines(xGrid, ndens, col='blue')
 lines(mixDensMean, col = 'green')
-legend("topright", legend = c("Data", "2)", "3)"), fill = c("white", "blue", "green"))
+legend("topright", box.lty = 1, legend = c("Data",'2)', '3)'), 
+       col = c("white",'blue', 'green'), lwd = 2)
 

@@ -69,7 +69,11 @@ RWMSampler <- function(c, it, fn, ...) {
   return (sample)
 }
 
-sample = RWMSampler(1,10000, logPois, data$nBids, X)
-plot(sample[,3], type='l')
+sample = RWMSampler(1,50000, logPois, data$nBids, X)
+plot(sample[,1], sample[,2],
+     type='l',
+     xlab = expression(beta[1]),
+     ylab = expression(beta[2]),
+     main = expression("Samples of" ~ beta[1] ~ "and" ~ beta[2]))
 
 
