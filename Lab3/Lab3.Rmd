@@ -84,7 +84,8 @@ The figure below shows a comparison between the samplers. The blue line represen
 
 ##2a) 
 
-The absolute values of the parameters obtained by a maximum likelihood estimation is shown below. 
+The absolute values of the parameters obtained by a maximum likelihood estimation is shown below.
+
 <center>
 ![Significance of covariates](plots/lab3_2_coeff.png){width=50%}
 </center>
@@ -108,9 +109,10 @@ The bayesian regression resulted in the following values for $\beta$s
 \caption{$\mu_0$} 
 \end{table}
 
+
 ##2c)
 
-The result below is from 50 000 sample draws from the posterior. In order to analyze the convergence, $\beta$[1] and $\beta$[2] are plotted in the same plot. As can be seen, most of the samples are drawn from a oval-shaped distribution centered around the modes of the betas. Thus, the algorithm has converged. 
+The result below is from 50 000 sample draws from the posterior. In order to analyze the convergence, $\beta_1$ and $\beta_2$ are plotted in the same plot. As can be seen, most of the samples are drawn from a oval-shaped distribution centered around the modes of the betas. Thus, the algorithm has converged. 
 
 ![Significance of covariates](plots/lab3_2c.png){width=50%}
 
