@@ -41,22 +41,9 @@ for(phi in phis) {
   arData <- rbind(arData, X)
 }
 
-StanModel = '
-data {
-  int<lower=0> T; // Number of observations 
-}
-parameters {
-  real mu; 
-  real<lower=0> sigma2; 
-  real phi;
- }
-model {
-  mu ~ normal(10,2);
-  phi ~ normal(0,1);
-  sigma2 ~ scaled_inv_chi_square(1,2); // Scaled-inv-chi2 with nu 
-}'
+model <- stan_model('StanNormalModel.stan')
+fit <- sampling(model, data = list(T=200), iter = 2000, warmup = 1000)
 
-fit = stan(model_code = StanModel, data = list(T=200), iter = 2000, warmup = 1000)
 
 # Print the fitted model
 print(fit,digits_summary=3) # Extract posterior samples
@@ -89,20 +76,9 @@ for (i in 2:N) {
 
 x_t <- exp(x_t) 
 
-StanModel = '
-data {
-  int<lower=0> N; // Number of observations
-  int c[N];
-}
-parameters {
-  real<lower=0> x[N]; // Data points
-}
-model {
-  for(n in 1:N) 
-      c[n] ~ poisson(x[n]); // Poisson
-}'
-
-fit = stan(model_code = StanModel, data = list(N=N, c=data$c), iter = 2000, warmup = 1000)
+#model <- stan_model('StanNormalModel')
+model <- stan(stan_model('StanPoissonModel.stan'))
+fit <- sampling(model, data = list(N=N, c=data$c), iter = 2000, warmup = 1000)
 
 # Print the fitted model
 print(fit,digits_summary=3) # Extract posterior samples
