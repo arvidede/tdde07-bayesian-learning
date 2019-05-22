@@ -1,0 +1,29 @@
+---
+title: "TDDE07 - Lab 4"
+author:
+- "Sophie Lindberg - sopli268"
+- "Arvid Edenheim - arved490"
+date: "`r Sys.Date()`"
+output: pdf_document
+header-includes:
+  \usepackage{float}
+  \floatplacement{figure}{H}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+\newpage
+
+# 1 - Time series models in Stan
+
+## 1a) AR(1)-process
+
+![AR(1) Realization](plots/lab4_a.png)
+
+\newpage
+
+## 1b) His name was Stan. Damn.
+
