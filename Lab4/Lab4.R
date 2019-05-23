@@ -15,34 +15,27 @@ AR <- function(mu, prev_x, phi, sigma_sq) {
 
 phis <- c(-1,0,1)
 
-for(phi in phis) {
-  result = c(x)
-  for (i in 2:T) {
-    x <- AR(mu, x, phi, sigma_sq)
-    result <- c(result, x)
-  }
-  plot(result, type = 'line', main = bquote(phi ~ ' =' ~ .(phi)))
+# for(phi in phis) {
+#   result = c(x)
+#   for (i in 2:T) {
+#     x <- AR(mu, x, phi, sigma_sq)
+#     result <- c(result, x)
+#   }
+#   plot(result, type = 'line', main = bquote(phi ~ ' =' ~ .(phi)))
+# }
+
+phi <- 0.95
+result = c(x)
+for (i in 2:T) {
+  x <- AR(mu, x, phi, sigma_sq)
+  result <- c(result, x)
 }
-
-
 
 ########## B ##########
 
-phis <- c(0.3, 0.95)
-arData <-c()
-
-for(phi in phis) {
-  x <- mu
-  X = c(x)
-  for (i in 2:T) {
-    x <- AR(mu, x, phi, sigma_sq)
-    X <- c(X, x)
-  }
-  arData <- rbind(arData, X)
-}
 
 model <- stan_model('StanNormalModel.stan')
-fit <- sampling(model, data = list(T=200), iter = 2000, warmup = 1000)
+fit <- sampling(model, data = list(T=200, y=result), iter = 3000, warmup = 500)
 
 
 # Print the fitted model
@@ -50,12 +43,11 @@ print(fit,digits_summary=3) # Extract posterior samples
 postDraws <- extract(fit)
 # Do traceplots of the first chain
 par(mfrow = c(1,1))
-plot(postDraws$mu[1:(1000)],type="l",ylab="mu",main="Traceplot")
+plot(postDraws$mu[1:(3000)],type="l",ylab="mu",main="Traceplot")
 # Do automatic traceplots of all chains
 traceplot(fit)
 # Bivariate posterior plots
 pairs(fit)
-
 
 
 ########## C ##########
@@ -76,8 +68,8 @@ for (i in 2:N) {
 
 x_t <- exp(x_t) 
 
-#model <- stan_model('StanNormalModel')
-model <- stan(stan_model('StanPoissonModel.stan'))
+
+model <- stan_model('StanPoissonModel.stan')
 fit <- sampling(model, data = list(N=N, c=data$c), iter = 2000, warmup = 1000)
 
 # Print the fitted model
