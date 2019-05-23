@@ -36,28 +36,33 @@ phis <- c(0.3, 0.95)
 
 X = c()
 for(phi in phis) {
-  x <- c(x)
+  result <- c(x)
   for (i in 2:T) {
-    x <- c(x, AR(mu, x, phi, sigma_sq))
+    x <- AR(mu, x, phi, sigma_sq)
+    result <- c(result, x)
   }
-  # X <- rbind(X, x)
+  X <- rbind(X, result)
 }
 
 model <- stan_model('StanNormalModel.stan')
-fit <- sampling(model, data = list(T=200, y=result), iter = 3000, warmup = 500)
 
+fitX <- sampling(model, data = list(T=200, x=X[1,]), iter = 3000, warmup = 500)
+fitY <- sampling(model, data = list(T=200, x=X[2,]), iter = 3000, warmup = 500)
 
 # Print the fitted model
-print(fit,digits_summary=3) # Extract posterior samples
-postDraws <- extract(fit)
-# Do traceplots of the first chain
-par(mfrow = c(1,1))
-plot(postDraws$mu[1:(3000)],type="l",ylab="mu",main="Traceplot")
-# Do automatic traceplots of all chains
-traceplot(fit)
-# Bivariate posterior plots
-pairs(fit)
+print(fitX,digits_summary=3) # Extract posterior samples
+print(fitY,digits_summary=3) # Extract posterior samples
 
+postDrawsX <- extract(fitX)
+postDrawsY <- extract(fitX)
+
+par(mfrow=c(1,2))
+plot(postDrawsX$mu, postDrawsX$phi)
+lines(mean(postDrawsX$mu), mean(postDrawsX$phi), type='p', col="red")
+# legend('topright', legend=expression(mean(postDrawsX$mu) ~ ',' ~ mean(postDrawsX$phi)))
+plot(postDrawsY$mu, postDrawsY$phi)
+lines(mean(postDrawsY$mu), mean(postDrawsY$phi), type='p', col="red")
+# legend('topright', legend=expression(().mean(postDrawsY$mu) ~ ',' ~ ().mean(postDrawsY$phi)))
 
 ########## C ##########
 library(ggplot2)
@@ -107,6 +112,37 @@ par(mfrow = c(1,1))
 pairs(fit)
 # plot(fit)
 
-
-
 ########## D ##########
+
+
+data <- read.table('campy.txt', header=TRUE)
+
+N <- length(data$c) 
+
+model <- stan_model('StanPoissonModelD.stan')
+fit <- sampling(model, data = list(N=N, c=data$c), iter = 2000, warmup = 1000)
+
+# Print the fitted model
+print(fit,digits_summary=3) # Extract posterior samples
+postDraws <- extract(fit)
+
+x <- postDraws$x
+
+xMean <- c()
+thetaUp <- c()
+thetaLow <- c()
+
+for (i in 1:length(x[1,])) {
+  xMean <- c(xMean, mean(exp(x[,i])))
+  thetaUp <- c(thetaUp, exp(quantile(x[,i], probs = 0.975)))
+  thetaLow <- c(thetaLow, exp(quantile(x[,i], probs = 0.025)))
+}
+
+# draws <- rpois(140, exp(xMean))
+
+plot(data$c, type='line')
+lines(xMean, col='red')
+lines(thetaUp, col='blue')
+lines(thetaLow, col='green')
+
+dev.off()

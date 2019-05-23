@@ -5,7 +5,7 @@ data {
 
 parameters {
   real mu;
-  real<lower=-1,upper=1> phi;
+  real phi;
   real<lower=0> sigma;
   real<lower=0> x[N]; // Data points
 }
@@ -21,6 +21,11 @@ model {
     c[n] ~ poisson(lambda[n]); // Poisson
       
   //prior
+  mu ~ normal(10,2);
+  phi ~ normal(0, 1);
+  sigma ~ gamma(1,1000);
+  
   for(n in 2:N)
     x[n] ~ normal(mu + phi * x[n-1], sigma);
+    
 }
