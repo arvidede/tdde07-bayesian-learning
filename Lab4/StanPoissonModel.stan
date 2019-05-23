@@ -4,18 +4,23 @@ data {
 }
 
 parameters {
+  real mu;
+  real phi;
+  real<lower=0> sigma;
   real<lower=0> x[N]; // Data points
 }
 
 transformed parameters {
   real lambda[N]; 
-  lambda[N] = exp(x[N]);
+  lambda = exp(x);
 }
 
 model {
   //likelihood
   for(n in 1:N) 
-      c[n] ~ poisson(lambda[n]); // Poisson
+    c[n] ~ poisson(lambda[n]); // Poisson
       
   //prior
+  for(n in 2:N)
+    x[n] ~ normal(mu + phi * x[n-1], sigma);
 }
