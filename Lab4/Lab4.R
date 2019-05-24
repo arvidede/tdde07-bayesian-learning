@@ -57,10 +57,10 @@ postDrawsX <- extract(fitX)
 postDrawsY <- extract(fitX)
 
 par(mfrow=c(1,2))
-plot(postDrawsX$mu, postDrawsX$phi)
+plot(postDrawsX$mu, postDrawsX$phi, main = expression(phi ~ '= 0.3'), ylab=expression(phi), xlab=expression(mu))
 lines(mean(postDrawsX$mu), mean(postDrawsX$phi), type='p', col="red")
 # legend('topright', legend=expression(mean(postDrawsX$mu) ~ ',' ~ mean(postDrawsX$phi)))
-plot(postDrawsY$mu, postDrawsY$phi)
+plot(postDrawsY$mu, postDrawsY$phi, main = expression(phi ~ '= 0.95'), ylab=expression(phi), xlab=expression(mu))
 lines(mean(postDrawsY$mu), mean(postDrawsY$phi), type='p', col="red")
 # legend('topright', legend=expression(().mean(postDrawsY$mu) ~ ',' ~ ().mean(postDrawsY$phi)))
 
@@ -84,7 +84,7 @@ thetaUp <- c()
 thetaLow <- c()
 
 for (i in 1:length(x[1,])) {
-  xMean <- c(xMean, mean(x[,i]))
+  xMean <- c(xMean, exp(mean(x[,i])))
   thetaUp <- c(thetaUp, exp(quantile(x[,i], probs = 0.975)))
   thetaLow <- c(thetaLow, exp(quantile(x[,i], probs = 0.025)))
 }
@@ -96,11 +96,13 @@ for (i in 1:length(x[1,])) {
 
 draws <- rpois(140, exp(xMean))
 
-plot(data$c, type='line')
-lines(draws, col='red')
-lines(thetaUp, col='blue')
-lines(thetaLow, col='green')
-
+plot(data$c, pch=16, col='gray77', ylab='', main='Data plot')
+lines(xMean, col='lightcyan3', lwd=2)
+lines(thetaUp, col='lightcyan3', lwd=2)
+lines(thetaLow, col='coral3', lwd=2)
+legend('topleft',legend = c('Data', 'Mean','Interval'), 
+       col = c('gray77', 'coral3', 'lightcyan3'), lwd=2)
+dev.off()
 # geom_ribbon(mapping = aes(seq(1,140,1), ymin = thetaLow, ymax = thetaUp), alpha = 0.25)
 
 # Do traceplots of the first chain
@@ -113,7 +115,6 @@ pairs(fit)
 # plot(fit)
 
 ########## D ##########
-
 
 data <- read.table('campy.txt', header=TRUE)
 
@@ -134,15 +135,16 @@ thetaLow <- c()
 
 for (i in 1:length(x[1,])) {
   xMean <- c(xMean, mean(exp(x[,i])))
-  thetaUp <- c(thetaUp, exp(quantile(x[,i], probs = 0.975)))
-  thetaLow <- c(thetaLow, exp(quantile(x[,i], probs = 0.025)))
+  thetaUp <- c(thetaUp, quantile(exp(x[,i]), probs = 0.975))
+  thetaLow <- c(thetaLow, quantile(exp(x[,i]), probs = 0.025))
 }
 
-# draws <- rpois(140, exp(xMean))
+plot(data$c, pch=16, col='gray77', ylab='', main='Data plot')
+lines(xMean, col='coral3', lwd=2)
+lines(thetaUp, col='lightcyan3', lwd=2)
+lines(thetaLow, col='lightcyan3', lwd=2)
+legend('topleft',legend = c('Data', 'Mean','Interval'), 
+       col = c('gray77', 'coral3', 'lightcyan3'), lwd=2)
 
-plot(data$c, type='line')
-lines(xMean, col='red')
-lines(thetaUp, col='blue')
-lines(thetaLow, col='green')
 
 dev.off()
