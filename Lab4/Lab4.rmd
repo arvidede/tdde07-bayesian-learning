@@ -22,8 +22,59 @@ knitr::opts_chunk$set(echo = TRUE)
 ## 1a) AR(1)-process
 
 ![AR(1) Realization](plots/lab4_a.png)
+\newpage
+
+It is clear that $\phi$ has a large effect on x~1:T~. The figure above depicts 3 different scenarios where $\phi$ is equal to -1, 0 and 1. In the first example, we have that
+\begin{center}
+x~t~ = $\mu$ - (x~t-1~ - $\mu$) + $\epsilon_t$
+\end{center}
+As can be seen in the figure above the values of x~t~ oscillate between positive and negatiive values when $\phi = -1$. This is because $\phi$ changes the sign of x~t~ in each iteration. 
+
+When  $\phi = 0$ we have that
+\begin{center}
+x~t~ = $\mu$ + $\epsilon_t$ 
+\end{center}
+In this case the value of x~t~ only depends on $\mu$ and $\epsilon_t$, meaning the values will be close to $\mu$. 
+
+In the last example we have that
+\begin{center}
+x~t~ = $\mu$ + (x~t-1~ - $\mu$) + $\epsilon_t$
+\end{center}
+In this case, x~t~ value depends on the previous value but won't change sign in each iteration as long as the error is fairly small. 
 
 \newpage
 
-## 1b) His name was Stan. Damn.
+## 1b) 
 
+Using our AR-function defined in a) resulted in the following values for the posterior mean and the upper and lower limits of the 95 % credible intreval. 
+
+\begin{table}[]
+\center:
+\begin{tabular}{|l|l|l|l|}
+\hline
+phi=0.95 & Posterior mean & Lower limit & Upper limit \\ \hline
+mu       & 0.819          & 0.275       & 1.380       \\ \hline
+sigma2   & 1.841          & 1.508       & 2.256       \\ \hline
+phi      & 0.901          & 0.838       & 0.961       \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[]
+\center:
+\begin{tabular}{|l|l|l|l|}
+\hline
+phi=0.30 & Posterior mean & Lower limit & Upper limit \\ \hline
+mu       & 6.275          & 4.942       & 7.581       \\ \hline
+sigma2   & 2.131          & 1.741       & 2.610       \\ \hline
+phi      & 0.379          & 0.251       & 0.510       \\ \hline
+\end{tabular}
+\end{table}
+
+The convergence of $\phi$ and $\mu$ can be seen by plotting the parameters in the same graph. The red dot represent the posterior mean of each parameter. The shape of the joint distribution of $\phi$ and $\mu$ is the same for different initial values of $\phi$. 
+\begin{center} 
+![Convergence of parameters](plots/lab4_b2.png)
+\end{center}
+
+\newpage
+
+## 1c)

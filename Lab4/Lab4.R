@@ -13,7 +13,7 @@ AR <- function(mu, prev_x, phi, sigma_sq) {
   return (mu + phi * (prev_x - mu) + error)
 }
 
-phis <- c(-1,0,1)
+phis <- c(-1,0.1,0.95)
 
 for(phi in phis) {
   result = c(x)
