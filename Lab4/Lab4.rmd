@@ -71,10 +71,30 @@ phi      & 0.379          & 0.251       & 0.510       \\ \hline
 \end{table}
 
 The convergence of $\phi$ and $\mu$ can be seen by plotting the parameters in the same graph. The red dot represent the posterior mean of each parameter. The shape of the joint distribution of $\phi$ and $\mu$ is the same for different initial values of $\phi$. 
-\begin{center} 
+
 ![Convergence of parameters](plots/lab4_b2.png)
-\end{center}
+
 
 \newpage
 
 ## 1c)
+
+The figure below shows a plot of the data as well as the posterior mean and a 95 % credible interval for the letaent intensity. 
+
+ 
+![Task C](plots/lab4_c.png)
+
+
+
+## 1d)
+
+Here the prior for $\sigma^2$ has been modified to be informative. We set the prior be 
+\begin(center)
+$\sigma^2$ ~ Gamma(1,1000)
+\end(center)
+
+Since the prior for sigma has a mean close to 0 and low variance, the effect of the error in the regression model has decreased.
+
+The modified prior had an effect on the posterior mean to be less sensitive to the data. This is an expected outcome since the prior, by being more informative, had a larger impact on the posterior. 
+
+![Task D](plots/lab4_d.png)

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.13)  24 MAY 2019 10:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.13)  25 MAY 2019 13:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -606,7 +606,7 @@ e
 )) [1
 
 {/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<plots/lab4_a.png, id=24, 638.385pt x 1003.75pt>
+<plots/lab4_a.png, id=32, 638.385pt x 1003.75pt>
 File: plots/lab4_a.png Graphic file (type png)
 <use plots/lab4_a.png>
 Package pdftex.def Info: plots/lab4_a.png  used on input line 99.
@@ -655,32 +655,67 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 ) [3]
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 137.
+               Default added (so using `tbp') on input line 141.
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 148.
+               Default added (so using `tbp') on input line 152.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 160.
-[4]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 160.
+<plots/lab4_b2.png, id=49, 803.0pt x 702.625pt>
+File: plots/lab4_b2.png Graphic file (type png)
+<use plots/lab4_b2.png>
+Package pdftex.def Info: plots/lab4_b2.png  used on input line 170.
+(pdftex.def)             Requested size: 469.7715pt x 411.05005pt.
+[4] [5pdfTeX warning (ext4): destination with the same identifier (name{figure.
+1}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.174 \newpage
+               <./plots/lab4_b2.png>]
+<plots/lab4_c.png, id=60, 803.0pt x 600.2425pt>
+File: plots/lab4_c.png Graphic file (type png)
+<use plots/lab4_c.png>
+Package pdftex.def Info: plots/lab4_c.png  used on input line 183.
+(pdftex.def)             Requested size: 469.7715pt x 351.15419pt.
+<plots/lab4_d.png, id=61, 803.0pt x 569.12625pt>
+File: plots/lab4_d.png Graphic file (type png)
+<use plots/lab4_d.png>
+Package pdftex.def Info: plots/lab4_d.png  used on input line 202.
+(pdftex.def)             Requested size: 469.7715pt x 332.95055pt.
+[6pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) 
+has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.205 
+       <./plots/lab4_c.png>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 207.
+[7pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) 
+has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.207 \end{document}
+                     <./plots/lab4_d.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 207.
 (./Lab4.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 160.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 160.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 207.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 207.
 Package rerunfilecheck Info: File `Lab4.out' has not changed.
-(rerunfilecheck)             Checksum: 5DA429B5A118844627EBF7D839825EE0;435.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 160.
+(rerunfilecheck)             Checksum: 70D7E537077EB9DCB0FA371F27F1EF86;579.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 207.
  ) 
 Here is how much of TeX's memory you used:
- 11973 strings out of 492649
- 175484 string characters out of 6129622
- 279554 words of memory out of 5000000
- 15680 multiletter control sequences out of 15000+600000
- 42849 words of font info for 49 fonts, out of 8000000 for 9000
+ 12006 strings out of 492649
+ 175939 string characters out of 6129622
+ 280606 words of memory out of 5000000
+ 15699 multiletter control sequences out of 15000+600000
+ 43098 words of font info for 52 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  32i,7n,38p,252b,340s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/lo
-cal/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/20
+{/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/
+texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/20
 18/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2018/texmf-d
 ist/fonts/enc/dvips/lm/lm-ec.enc}</usr/local/texlive/2018/texmf-dist/fonts/type
 1/public/lm/lmbx12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/l
@@ -690,10 +725,10 @@ al/texlive/2018/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/local/texlive/
 2018/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/2018/texmf-d
 ist/fonts/type1/public/lm/lmri12.pfb></usr/local/texlive/2018/texmf-dist/fonts/
 type1/public/lm/lmsy10.pfb>
-Output written on Lab4.pdf (4 pages, 212503 bytes).
+Output written on Lab4.pdf (7 pages, 341974 bytes).
 PDF statistics:
- 81 PDF objects out of 1000 (max. 8388607)
- 64 compressed objects within 1 object stream
- 8 named destinations out of 1000 (max. 500000)
- 8222 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 115 PDF objects out of 1000 (max. 8388607)
+ 89 compressed objects within 1 object stream
+ 16 named destinations out of 1000 (max. 500000)
+ 8253 words of extra memory for PDF output out of 10000 (max. 10000000)
 
