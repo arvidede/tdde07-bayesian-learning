@@ -22,21 +22,19 @@ temp <- function(beta, time) {
   return (beta[1] + beta[2] * time + beta[3] * (time ^ 2)) + rnorm(0,1)
 }
 
-par(mfrow=c(3,3))
-
-plot(data$time, data$temp)
-
+plot(data$time, data$temp, pch=16)
 for (i in 1:8) {
   sigma_sq = draw_sigma(v, s2)
   beta = rmvnorm(1, mu, sigma_sq*solve(omega))
   y = temp(beta[1,], data$time)
-  plot(data$time, y)
+  lines(data$time, y, col='red')
 }
 
 dev.off()
 
 
 ######## B ########
+#Plot the marginal posterior also for the sigma2 parameter
 n_draws <- 1000
 ones <- c(rep(1, length(data$time)))
 x2 <- data$time^2
@@ -72,6 +70,12 @@ hist(beta_post[,2], freq = FALSE, xlab = "Beta 1", main='')
 hist(beta_post[,3], freq = FALSE, xlab = "Beta 2", main='')
 dev.off()
 
+sigma_draws <- c()
+for (i in 1:n_draws) {
+  sigma_draws <- c(draw_sigma(v_n, s2_n), sigma_draws)
+}
+hist(sigma_draws)
+
 plot(data$temp, type='p', col='lightgray', main = 'Data Plot', xlab = "Time", ylab = "Temperature")
 lines(y_med, type='l')
 lines(y_low, type='l', col='red')
@@ -92,6 +96,13 @@ dev.off()
 # Prior
 # Mu_0 = [...mu, 0, 0, 0, 0] due to suspicion that the introduced variables might not be needed
 # Omega_0, want low variance (high bias to avoid overfitting) => High diagonal values in omega_0for the new variables, with the rest set to zero since we can't say anything about the covariance between the new variables
+
+
+#Good! You should use mean 0 and high omega diagonal values 
+#for shrinkage of the higher order polynomial terms. 
+#However, using your previously estimated posterior parameters 
+#for beta0-beta2 is a bit weird, unless you have some new data. 
+#Otherwise I would say: use the same prior for beta0-beta2 as you did in 1b).
 
 new_mu = c(mu_n, rep(0, 5))
 new_omega <- 100 * diag(8)
