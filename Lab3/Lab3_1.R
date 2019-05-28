@@ -2,7 +2,6 @@
 data = read.table("rainfall.txt", col.names = "x")
 
 ########### A ###########
-
 # parameter init values
 mu0 <- 30
 tau0 <- 1
@@ -53,16 +52,51 @@ for (i in 1:iter) {
   sigma2 <- c(sigma2, currSigma)
 }
 
-## plot trajactories of sampled mu and sigma
+## plot trajectories of sampled mu and sigma
 plot(mu, sqrt(sigma2),type='l')
 
-########## C #########
-xGrid <- seq(0,400,by=(100/n))
-ndens <- dnorm(xGrid, mean(mu), mean(sqrt(sigma2)))
+# Also consider plotting the trajectories (the sampled values of mu and sigma2) over the iterations.
+meanMeans = c()
+meanVars = c()
+for (i in 1:n){
+  if(i%%2 == 0){
+    # the trajector between the current and previous mu/sigma
+    meanMeans = c(meanMeans, mean(mu[i-1:i]))
+    meanVars = c(meanVars, mean(sigma2[i-1:i]))
+  }
+}
+plot(meanMeans, type='l', xlim=c(0,600))
+plot(sqrt(meanVars), type='l', xlim=c(0,500))
 
-hist(data$x, 20, main = 'Plot 1c)', freq = FALSE, xlab='')
-lines(xGrid, ndens, col='blue')
-lines(mixDensMean, col = 'green')
-legend("topright", box.lty = 1, legend = c("Data",'2)', '3)'), 
-       col = c("white",'blue', 'green'), lwd = 2)
+########## C #########
+# Your plot is very small and hard to see. 
+# The green density looks incorrect, maybe just using the wrong grid.
+# Your mixture density is plotted using the default output from Mattias' 
+# code which computes the mean of the mixture densities computed at each Gibbs iteration. 
+# This is ok, but not exactly the same as the density requested in the problem, 
+# which is based on the posterior mean of the parameters.
+
+densityData = density(data$x)
+
+xGrid = seq(min(densityData$x),max(densityData$x),length = length(densityData$x))
+ndens = dnorm(xGrid, mean(mu), mean(sqrt(sigma2)))
+
+plot(densityData$x, 
+     densityData$y, 
+     type = 'l',
+     main = 'Plot 1c)', 
+     xlab='')
+
+lines(xGrid,
+      ndens, 
+      col='blue')
+
+lines(mixDensMean, 
+      col = 'green')
+
+legend("topright", 
+       box.lty = 1, 
+       legend = c("Data",'Normal model', 'Mixed models'), 
+       col = c("black",'blue', 'green'), 
+       lwd = 2)
 

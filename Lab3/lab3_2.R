@@ -4,7 +4,23 @@ data <- read.table("eBayNumberOfBidderData.txt", header = TRUE)
 
 
 ########## A ##########
+
+#The significance of a parameter is not governed by its estimated 
+#absolute value, but by e.g. the p-value. Use e.g. summary(fit).
+
 fit <- glm(nBids ~ 0 + ., data, family = poisson)
+
+#Obtain p-values
+p_values <- coef(summary(fit))[,4]
+# Firstly, the p-value given for the Z-statistic would have to 
+# be interpreted as how likely it is that a result as extreme or 
+# more extreme than that observed would have occured under the 
+# null hypothesis. I.e. 0.96 would in principle mean that the 
+# data are providing very little evidence that the variable is 
+# needed (while small values such as, say, 𝑝≤0.05
+# would provide evidence for the likely relevance of the variable, 
+# as pointed out by others already).
+
 coeff <- fit$coefficients
 plot(abs(coeff), type='h', 
      lwd=2, 
@@ -16,39 +32,37 @@ X <- as.matrix(data[,2:10])
 ## The most significant covariate is minBidShare. 
 
 ########## B ##########
+
+# Your estimated beta values should be close to the ones from glm() if 
+# you did it right. Double check this line:
+# logLik <- logLik + y[i] * t(beta)%*%x[i,] - exp( t(beta)%*%x[i,] - log(factorial(y[i])))
+
 sigmaPrior <- 100 * solve(t(X)%*%X)
 
 logPois <- function(beta, y, x, ...) {
   # log likelihood of poisson model
-
-  n <- length(x)
-  
-  logLik <- 0
-  for (i in 1:length(n)) {
-    logLik <- logLik + y[i] * t(beta)%*%x[i,] - exp( t(beta)%*%x[i,] - log(factorial(y[i])))
-  }
-  
+  lmbda <- exp(x%*%t(beta))
+  logLik <- sum(dpois(y, lmbda, log=TRUE), na.rm = TRUE)
   # log of prior
   logPrior <- dmvnorm(beta, mean = rep(0, 9), sigma = sigmaPrior, log=TRUE)
-  
   # add 
   return(logLik + logPrior)
 }
 
-OptimResults<-optim(coeff,logPois,gr=NULL, y = data$nBids,x = X,method=c("BFGS"),control=list(fnscale=-1),hessian=TRUE)
-
+OptimResults<-optim(coeff,logPois,gr=NULL, y = data$nBids,x = X, method=c("BFGS"),control=list(fnscale=-1),hessian=TRUE)
 
 postCov <- -solve(OptimResults$hessian)
 st_div <- sqrt(diag(postCov))
 betaMode <- OptimResults$par
 
 ########## C ##########
+# Also plot the MCMC trajectories for the different betas. 
+# Your results will be different when you fix 2b) also.
 
 gaussianSample <- function(theta, sigma, c) {
   val <- rmvnorm(1, theta, c*sigma)
   return (val)
 }
-
 
 RWMSampler <- function(c, it, initBeta, fn, ...) {
   accRate <- 0
@@ -59,6 +73,7 @@ RWMSampler <- function(c, it, initBeta, fn, ...) {
     alpha <- min(1,exp(fn(prev, ...) - fn(candidate, ...)))
     u <- runif(1, 0, 1)
     if (alpha <= u) {
+      print('hej')
       # accept candidate
       prev <- candidate
       accRate <- accRate + 1
@@ -69,11 +84,21 @@ RWMSampler <- function(c, it, initBeta, fn, ...) {
   return (sample)
 }
 
-sample = RWMSampler(1,50000,betaMode, logPois, data$nBids, X)
-plot(sample[,1], sample[,2],
+## Här blir det knasigt.. 
+sample <- RWMSampler(1,100,betaMode, logPois, data$nBids, X)
+plot(sample[,1],
+     sample[,2],
      type='l',
      xlab = expression(beta[1]),
      ylab = expression(beta[2]),
-     main = expression("Samples of" ~ beta[1] ~ "and" ~ beta[2]))
+     main = expression("Samples of" ~ beta[1] ~ "and" ~ beta[2])
+     )
 
-
+# plot trajectoroies for different betas
+traj_beta_1 = c()
+for (i in 1:length(beta[1])) {
+  if (i %% 2 == 0) {
+    traj_beta_1 = c(traj_beta_1, mean(beta[i-1],beta[i]))
+  }
+}
+plot(traj_beta_1)
