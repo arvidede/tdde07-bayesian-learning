@@ -49,6 +49,7 @@ for (i in 1:iter) {
     currSigma <- drawSigma(currMu) 
   }
   mu <- c(mu, currMu)
+  print(length(mu))
   sigma2 <- c(sigma2, currSigma)
 }
 
@@ -58,15 +59,15 @@ plot(mu, sqrt(sigma2),type='l')
 # Also consider plotting the trajectories (the sampled values of mu and sigma2) over the iterations.
 meanMeans = c()
 meanVars = c()
-for (i in 1:n){
-  if(i%%2 == 0){
+for (i in 2:iter){
+  # if(i%%2 == 0){
     # the trajector between the current and previous mu/sigma
     meanMeans = c(meanMeans, mean(mu[i-1:i]))
     meanVars = c(meanVars, mean(sigma2[i-1:i]))
-  }
+  #}
 }
-plot(meanMeans, type='l', xlim=c(0,600))
-plot(sqrt(meanVars), type='l', xlim=c(0,500))
+plot(meanMeans, type='l', xlim=c(0,1000))
+plot(sqrt(meanVars), type='l', xlim=c(0,1000))
 
 ########## C #########
 # Your plot is very small and hard to see. 
@@ -81,17 +82,13 @@ densityData = density(data$x)
 xGrid = seq(min(densityData$x),max(densityData$x),length = length(densityData$x))
 ndens = dnorm(xGrid, mean(mu), mean(sqrt(sigma2)))
 
-plot(densityData$x, 
-     densityData$y, 
-     type = 'l',
-     main = 'Plot 1c)', 
-     xlab='')
+hist(data$x, 50, freq = FALSE)
 
 lines(xGrid,
       ndens, 
       col='blue')
 
-lines(mixDensMean, 
+lines(mixDens, 
       col = 'green')
 
 legend("topright", 

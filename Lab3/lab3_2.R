@@ -21,7 +21,7 @@ p_values <- coef(summary(fit))[,4]
 # would provide evidence for the likely relevance of the variable, 
 # as pointed out by others already).
 
-coeff <- fit$coefficients
+coeff <- t(fit$coefficients)
 plot(abs(coeff), type='h', 
      lwd=2, 
      xlab = "coefficient index", 
@@ -35,14 +35,22 @@ X <- as.matrix(data[,2:10])
 
 # Your estimated beta values should be close to the ones from glm() if 
 # you did it right. Double check this line:
-# logLik <- logLik + y[i] * t(beta)%*%x[i,] - exp( t(beta)%*%x[i,] - log(factorial(y[i])))
 
 sigmaPrior <- 100 * solve(t(X)%*%X)
 
-logPois <- function(beta, y, x, ...) {
+logPois <- function(beta, y, X, ...) {
   # log likelihood of poisson model
-  lmbda <- exp(x%*%t(beta))
-  logLik <- sum(dpois(y, lmbda, log=TRUE), na.rm = TRUE)
+  if(!is.null(dim(beta))) {
+    beta <- beta[1,]
+  }
+  
+  lambda <- exp(X%*%beta)
+  logLik <- sum(dpois(y, lambda, log=TRUE))
+  
+  if (logLik == -Inf) {
+    logLik <- -2000
+  }
+  # logLik <- logLik + y[i] * t(beta)%*%x[i,] - exp( t(beta)%*%x[i,] - log(factorial(y[i])))
   # log of prior
   logPrior <- dmvnorm(beta, mean = rep(0, 9), sigma = sigmaPrior, log=TRUE)
   # add 
@@ -70,10 +78,10 @@ RWMSampler <- function(c, it, initBeta, fn, ...) {
   prev <- gaussianSample(initBeta, postCov, c)
   for (i in 1:it) {
     candidate <- gaussianSample(prev, postCov, c)
-    alpha <- min(1,exp(fn(prev, ...) - fn(candidate, ...)))
+    
+    alpha <- min(1, exp( fn(candidate, ...) - fn(prev, ...) ))
     u <- runif(1, 0, 1)
-    if (alpha <= u) {
-      print('hej')
+    if (alpha >= u) {
       # accept candidate
       prev <- candidate
       accRate <- accRate + 1
@@ -85,7 +93,8 @@ RWMSampler <- function(c, it, initBeta, fn, ...) {
 }
 
 ## Här blir det knasigt.. 
-sample <- RWMSampler(1,100,betaMode, logPois, data$nBids, X)
+sample <- RWMSampler(1,50000,betaMode, logPois, as.vector(data$nBids), X)
+hist(sample[,9])
 plot(sample[,1],
      sample[,2],
      type='l',
@@ -95,10 +104,9 @@ plot(sample[,1],
      )
 
 # plot trajectoroies for different betas
-traj_beta_1 = c()
-for (i in 1:length(beta[1])) {
-  if (i %% 2 == 0) {
-    traj_beta_1 = c(traj_beta_1, mean(beta[i-1],beta[i]))
-  }
+traj_beta_9 = c()
+for (i in 11:length(sample[,9])) {
+    traj_beta_9 = c(traj_beta_1, mean(sample[i-10:i,9]))
 }
-plot(traj_beta_1)
+plot(traj_beta_9, type = 'l')
+dev.off()
