@@ -74,7 +74,7 @@ sigma_draws <- c()
 for (i in 1:n_draws) {
   sigma_draws <- c(draw_sigma(v_n, s2_n), sigma_draws)
 }
-hist(sigma_draws)
+hist(sigma_draws, breaks = 50)
 
 plot(data$temp, type='p', col='lightgray', main = 'Data Plot', xlab = "Time", ylab = "Temperature")
 lines(y_med, type='l')
@@ -104,7 +104,7 @@ dev.off()
 #for beta0-beta2 is a bit weird, unless you have some new data. 
 #Otherwise I would say: use the same prior for beta0-beta2 as you did in 1b).
 
-new_mu = c(mu_n, rep(0, 5))
+new_mu = c(mu_0, rep(0, 5))
 new_omega <- 100 * diag(8)
 new_omega[1:3,1:3] = omega_n
 

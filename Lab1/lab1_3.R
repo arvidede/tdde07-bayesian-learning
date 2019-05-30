@@ -8,7 +8,8 @@
 #account for the spacing between your gridpoints and divide the function with the right value.
 
 y <- c(-2.44, 2.14, 2.54, 1.83, 2.01, 2.33, -2.79, 2.23, 2.07, 2.02)
-kSeq <- seq(0,10, by=0.01)
+gridWidth <- 0.01
+kSeq <- seq(0,10, by=gridWidth)
 mu <- 2.39
 lambda <- 1
 # kappa <- dexp(kSeq, lambda)
@@ -30,7 +31,7 @@ for (k in kSeq){
 
 ##Plot the normalized posterior
 normConst <- sum(posterior)
-plot(kSeq, posterior/normConst,type='l')
+plot(kSeq, posterior/(normConst*gridWidth),type='l')
 legend('topright', legend='Mode', fill='red')
 
 # B: Compute the posterior mode of k

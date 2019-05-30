@@ -23,8 +23,6 @@ trueStdv <- sqrt(((alpha + s) * ( beta + f)) / ((alpha + beta + n)^2 * (alpha + 
 par(mfrow=c(1,3))
 for (draws in nDraws) {
   random = rbeta(draws, alpha+s, beta+(n-s))
-  mean <- mean(random)
-  stdv <- sd(random)
   hist(random, xlim = c(0,1), freq = FALSE, breaks=10)
   lines(xGrid, posterior, type='l', col ='red')
 }
