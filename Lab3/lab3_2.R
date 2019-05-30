@@ -92,7 +92,7 @@ RWMSampler <- function(c, it, initBeta, fn, ...) {
   return (sample)
 }
 
-## Här blir det knasigt.. 
+# sample with random walk metropolis
 sample <- RWMSampler(1,50000,betaMode, logPois, as.vector(data$nBids), X)
 hist(sample[,9])
 plot(sample[,1],
@@ -103,7 +103,7 @@ plot(sample[,1],
      main = expression("Samples of" ~ beta[1] ~ "and" ~ beta[2])
      )
 
-# plot trajectoroies for different betas
+# plot trajectoroies for beta 9 
 traj_beta_9 = c()
 for (i in 11:length(sample[,9])) {
     traj_beta_9 = c(traj_beta_1, mean(sample[i-10:i,9]))
