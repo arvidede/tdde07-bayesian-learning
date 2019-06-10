@@ -26,6 +26,6 @@ model {
   sigma ~ gamma(1,1000);
   
   for(n in 2:N)
-    x[n] ~ normal(mu + phi * x[n-1], sigma);
+    x[n] ~ normal(mu + phi * (x[n-1] - mu), sigma);
     
 }
