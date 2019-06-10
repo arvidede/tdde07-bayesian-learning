@@ -53,9 +53,9 @@ Using our AR-function defined in a) resulted in the following values for the pos
 \begin{tabular}{|l|l|l|l|}
 \hline
 phi=0.95 & Posterior mean & Lower limit & Upper limit \\ \hline
-mu       & 0.819          & 0.275       & 1.380       \\ \hline
-sigma2   & 1.841          & 1.508       & 2.256       \\ \hline
-phi      & 0.901          & 0.838       & 0.961       \\ \hline
+mu       & NA          & NA       & NA       \\ \hline
+sigma2   & 2.143          & 1.752       & 2.593       \\ \hline
+phi      & 0.968          & 0.944       & 1.000       \\ \hline
 \end{tabular}
 \end{table}
 
@@ -64,15 +64,23 @@ phi      & 0.901          & 0.838       & 0.961       \\ \hline
 \begin{tabular}{|l|l|l|l|}
 \hline
 phi=0.30 & Posterior mean & Lower limit & Upper limit \\ \hline
-mu       & 6.275          & 4.942       & 7.581       \\ \hline
-sigma2   & 2.131          & 1.741       & 2.610       \\ \hline
-phi      & 0.379          & 0.251       & 0.510       \\ \hline
+mu       & 10.188         & 9.874       & 10.497       \\ \hline
+sigma2   & 2.176          & 1.790       & 2.654       \\ \hline
+phi      & 0.328          & 0.194       & 0.464       \\ \hline
 \end{tabular}
 \end{table}
 
 The convergence of $\phi$ and $\mu$ can be seen by plotting the parameters in the same graph. The red dot represent the posterior mean of each parameter. The shape of the joint distribution of $\phi$ and $\mu$ is the same for different initial values of $\phi$. 
 
 ![Convergence of parameters](plots/lab4_b2.png){height=60%}
+
+\newpage
+
+The chains are mixing fairly well for $\phi = 0.3$, with convergence towards the true values ($\mu = 10, \sigma^2=2, \phi = 0.3$), while $\phi = 0.95$ results in relatively poor mixing for all but $\sigma^2$, with no actual convergence for $\mu$.
+
+![Sample trajectories for $\phi=0.3$](plots/lab4_b_convergence_x.png){height=50%}
+
+![Sample trajectories for $\phi=0.3$](plots/lab4_b_convergence_y.png){height=50%}
 
 \newpage
 
@@ -151,8 +159,12 @@ for(phi in phis) {
 
 model <- stan_model('StanNormalModel.stan')
 
-fitX <- sampling(model, data = list(T=200, x=X[1,]), iter = 3000, warmup = 500)
-fitY <- sampling(model, data = list(T=200, x=X[2,]), iter = 3000, warmup = 500)
+warmup=1000
+iter=2000
+niter = 4*(iter-warmup)
+
+fitX <- sampling(model, data = list(T=200, x=X[1,]), iter = iter, warmup = warmup)
+fitY <- sampling(model, data = list(T=200, x=X[2,]), iter = iter, warmup = warmup)
 
 # Print the fitted model
 print(fitX,digits_summary=3) # Extract posterior samples
@@ -164,10 +176,19 @@ postDrawsY <- extract(fitX)
 par(mfrow=c(1,2))
 plot(postDrawsX$mu, postDrawsX$phi, main = expression(phi ~ '= 0.3'), ylab=expression(phi), xlab=expression(mu))
 lines(mean(postDrawsX$mu), mean(postDrawsX$phi), type='p', col="red")
+plot(postDrawsX$mu, type='l')
 # legend('topright', legend=expression(mean(postDrawsX$mu) ~ ',' ~ mean(postDrawsX$phi)))
 plot(postDrawsY$mu, postDrawsY$phi, main = expression(phi ~ '= 0.95'), ylab=expression(phi), xlab=expression(mu))
 lines(mean(postDrawsY$mu), mean(postDrawsY$phi), type='p', col="red")
 # legend('topright', legend=expression(().mean(postDrawsY$mu) ~ ',' ~ ().mean(postDrawsY$phi)))
+
+# plot convergence
+png('plots/lab4_b_convergence_x.png')
+traceplot(fitX)
+dev.off()
+png('plots/lab4_b_convergence_y.png')
+traceplot(fitY)
+dev.off()
 
 ########## C ##########
 library(ggplot2)
@@ -251,6 +272,8 @@ lines(thetaLow, col='lightcyan3', lwd=2)
 legend('topleft',legend = c('Data', 'Mean','Interval'), 
        col = c('gray77', 'coral3', 'lightcyan3'), lwd=2)
 
+
+dev.off()
 ```
 
 \newpage

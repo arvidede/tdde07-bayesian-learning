@@ -17,5 +17,5 @@ model {
   // 
   //likelihood
   for (t in 2:T)
-    x[t] ~ normal(mu + phi * x[t-1], sqrt(sigma2));
+    x[t] ~ normal(mu + phi * (x[t-1] - mu), sqrt(sigma2));
 }

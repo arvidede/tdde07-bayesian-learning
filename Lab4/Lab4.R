@@ -63,13 +63,19 @@ postDrawsY <- extract(fitX)
 par(mfrow=c(1,2))
 plot(postDrawsX$mu, postDrawsX$phi, main = expression(phi ~ '= 0.3'), ylab=expression(phi), xlab=expression(mu))
 lines(mean(postDrawsX$mu), mean(postDrawsX$phi), type='p', col="red")
+plot(postDrawsX$mu, type='l')
 # legend('topright', legend=expression(mean(postDrawsX$mu) ~ ',' ~ mean(postDrawsX$phi)))
 plot(postDrawsY$mu, postDrawsY$phi, main = expression(phi ~ '= 0.95'), ylab=expression(phi), xlab=expression(mu))
 lines(mean(postDrawsY$mu), mean(postDrawsY$phi), type='p', col="red")
 # legend('topright', legend=expression(().mean(postDrawsY$mu) ~ ',' ~ ().mean(postDrawsY$phi)))
 
 # plot convergence
-traceplot(model)
+png('plots/lab4_b_convergence_x.png')
+traceplot(fitX)
+dev.off()
+png('plots/lab4_b_convergence_y.png')
+traceplot(fitY)
+dev.off()
 
 ########## C ##########
 library(ggplot2)
