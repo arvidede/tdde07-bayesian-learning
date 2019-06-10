@@ -22,16 +22,18 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The posterior converges towards the true values with rising number of draw, represented below with 10, 100, 1000 draws.
 
-![Convergence](assets/lab_1_1_a.png)
+![Convergence](assets/lab_1_1_a.png){width=700,height=30%,}
+
+![Alternative visualization of convergence](assets/lab1_a_convergence.png){heigth=40%}
+
+\newpage
 
 ## 1b)
 
 The posterior was simulated with 10000 draws, resulting in $P(\theta < 0.4 | y) = 0.0043$. Real value using pbeta = 0.003973.
 
-\newpage
-
 ## 1c)
-Visualization of the log odds $\phi = log(\frac{\phi}{1-\phi})$ by simulation, using 10000 draws.
+Visualization of the log odds $\phi = log(\frac{\theta}{1-\theta})$ by simulation, using 10000 draws.
 
 ![Posterior distribution of the log-odds](assets/lab_1_1_c.png)
 
@@ -76,13 +78,17 @@ The distribution of $\kappa$ was calculated as the product of the likelihood and
 alpha <- 2
 beta <- 2
 s <- 14
+f <- 6
 n <- 20
+f <- n-s
 nDraws <- c(10, 100, 1000)
 
-# 1a
+# 1a - Random draws from posterior of theta | y ~ Beta(alpha + s, beta + f)
 
 xGrid <- seq(0.001, 0.999, by=0.001)
 posterior = dbeta(xGrid, alpha + s, beta + (n-s))
+trueMean <- (alpha + s)/(alpha + beta + s + f)
+trueStdv <- sqrt(((alpha + s) * ( beta + f)) / ((alpha + beta + n)^2 * (alpha + beta + n + 1)))
 par(mfrow=c(1,3))
 for (draws in nDraws) {
   random = rbeta(draws, alpha+s, beta+(n-s))
@@ -91,24 +97,48 @@ for (draws in nDraws) {
 }
 dev.off() 
 
-# 1b
+par(mfrow=c(1,2))
+# Mean and standard deviation
+mean <- c()
+stdv <- c()
+for (i in 1:1000) {
+  random = rbeta(i, alpha+s, beta+(n-s))
+  mean <- c(mean, mean(random))
+  stdv <- c(stdv, sd(random))
+}
 
+# Plot mean to see convergence
+plot(mean, type='l', col='green', xlab = 'n draws')
+abline(h = trueMean)
+legend('topright', legend = 'True mean', col = 'black', lwd = 1)
+
+# Plot standard diviation to see convergence
+plot(stdv, type='l', col='black', xlab='n draws')
+abline(h = trueStdv, col='red')
+legend('topright', legend = 'True stdv', col = 'red', lwd = 1)
+
+
+# 1b - Simulation of Pr(theta < 0.4|y), compared with the real value using pbeta
 nDraws <- 10000
 random = rbeta(nDraws, alpha+s, beta+(n-s))
-val <- random * (random < 0.4)
-print(sum(val>0)/length(val))
+print(sum(random < 0.4)/length(random))
+real <- pbeta(.4, alpha + s, beta + (n-s))
 
-# 1c
+
+# 1c - Posterior distribution of the log-odds by simulation
 nDraws <- 10000
 random = rbeta(nDraws, alpha+s, beta+(n-s))
 phi <- log(random/(1 - random))
-plot(density(random), lwd=3, type='l', col='red')
+plot(density(phi), lwd=1, type='l', col='red', main = expression('Density of' ~ phi))
+
 ```
 
 \newpage
 
 # 2 - Code
 ```{r echo=TRUE, eval=FALSE}
+library(invgamma)
+
 # -----------A-------------
 income <- c(14,25,45,25,30,33,19,50,34,67)
 #income <- c(1,1,1,1,1,1,1,1,1,1)
@@ -132,7 +162,7 @@ sigma_sq = n*tSquared / X_draw
 #theoretical
 
 theoretical <- function(theta, v, s) {
-  return (((v/2)^(v/2))/gamma(v/2)*(s^v)*(theta^(-(v/2+1)))*exp((-v*s^2)/(2*theta)))
+  return ( ((v/2) ^ (v/2)) / gamma(v/2)  * (s ^ v) * (theta ^ (-(v/2+1))) * exp((-v * s ^ 2) / (2 * theta) ))
 }
 
 range <- seq(0,10,by=0.01)
@@ -150,8 +180,7 @@ lines(range, mx, lwd=3, type='l', col='red', xlab = 'sigma')
 z <- sqrt(sigma_sq/2)
 G <- 2*pnorm(z)-1
 
-# Plot where y = values and x = index of the value in the vector
-hist(G, 100, freq = FALSE, xlab="posterior of Gini coefficient", ylab="")
+hist(G, 100, freq = FALSE, xlab="posterior of Gini coefficient", ylab="") # Plot where y = values and x = index of the value in the vector
 
 # -----------C-------------  
 
@@ -196,9 +225,11 @@ abline(v=b, col='green')
 
 # A: Plot the posterior distribution of k
 # posterior(k | y, mu) = likelihood * prior(k) = prod_prob * prior
+# Plot of the normalized posterior with AUC = 1
 
 y <- c(-2.44, 2.14, 2.54, 1.83, 2.01, 2.33, -2.79, 2.23, 2.07, 2.02)
-kSeq <- seq(0,10, by=0.01)
+gridWidth <- 0.01
+kSeq <- seq(0,10, by=gridWidth)
 mu <- 2.39
 lambda <- 1
 # kappa <- dexp(kSeq, lambda)
@@ -218,12 +249,14 @@ for (k in kSeq){
   posterior = c(posterior, c(kPos(k, mu, y)))
 }
 
-plot(kSeq, posterior,type='l')
+# Plot the normalized posterior with AUC = 1
+normConst <- sum(posterior)
+plot(kSeq, posterior/(normConst*gridWidth),type='l', ylab = 'Normalized Density')
 legend('topright', legend='Mode', fill='red')
-
 
 # B: Compute the posterior mode of k
 
 kPosMode <- kSeq[which.max(posterior)]
 abline(v=kPosMode, col='red', lwd=1)
+
 ```
