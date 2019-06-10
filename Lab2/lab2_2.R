@@ -105,3 +105,4 @@ barplot(height = c(p, 1-p),
         col = c('coral', 'lightcyan'),
         legend =c('working', 'not working'), 
         main = 'Probability distribution of predicted y')
+

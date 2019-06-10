@@ -57,7 +57,7 @@ logPois <- function(beta, y, X, ...) {
   return(logLik + logPrior)
 }
 
-OptimResults<-optim(coeff,logPois,gr=NULL, y = data$nBids,x = X, method=c("BFGS"),control=list(fnscale=-1),hessian=TRUE)
+OptimResults<-optim(coeff,logPois,gr=NULL, y = data$nBids,X = X, method=c("BFGS"),control=list(fnscale=-1),hessian=TRUE)
 
 postCov <- -solve(OptimResults$hessian)
 st_div <- sqrt(diag(postCov))
@@ -86,14 +86,17 @@ RWMSampler <- function(c, it, initBeta, fn, ...) {
       prev <- candidate
       accRate <- accRate + 1
       # as matrix
-      sample <- rbind(sample, prev)
     }
+    sample <- rbind(sample, prev)
   }
   return (sample)
 }
 
 # sample with random walk metropolis
-sample <- RWMSampler(1,50000,betaMode, logPois, as.vector(data$nBids), X)
+burnin <- 500
+it <- 10000
+nIter <- burnin + it
+sample <- RWMSampler(1,nIter, rep(0, 9), logPois, as.vector(data$nBids), X)
 hist(sample[,9])
 plot(sample[,1],
      sample[,2],
@@ -103,10 +106,13 @@ plot(sample[,1],
      main = expression("Samples of" ~ beta[1] ~ "and" ~ beta[2])
      )
 
-# plot trajectoroies for beta 9 
-traj_beta_9 = c()
-for (i in 11:length(sample[,9])) {
-    traj_beta_9 = c(traj_beta_1, mean(sample[i-10:i,9]))
+# plot trajectoroies for betas 
+for (i in 1:dim(sample)[2]) {
+  file <- paste("lab3_2c_",i,".png", sep="")
+  png(file, width = 1000, height = 650)
+  plot(sample[,i], type = 'l', main=paste("Beta", i))
+  abline(h=mean(sample[burnin+1:it,i]), col="red")
+  dev.off()
 }
-plot(traj_beta_9, type = 'l')
-dev.off()
+
+

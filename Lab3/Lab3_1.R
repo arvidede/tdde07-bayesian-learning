@@ -49,7 +49,6 @@ for (i in 1:iter) {
     currSigma <- drawSigma(currMu) 
   }
   mu <- c(mu, currMu)
-  print(length(mu))
   sigma2 <- c(sigma2, currSigma)
 }
 
@@ -57,17 +56,8 @@ for (i in 1:iter) {
 plot(mu, sqrt(sigma2),type='l')
 
 # Also consider plotting the trajectories (the sampled values of mu and sigma2) over the iterations.
-meanMeans = c()
-meanVars = c()
-for (i in 2:iter){
-  # if(i%%2 == 0){
-    # the trajector between the current and previous mu/sigma
-    meanMeans = c(meanMeans, mean(mu[i-1:i]))
-    meanVars = c(meanVars, mean(sigma2[i-1:i]))
-  #}
-}
-plot(meanMeans, type='l', xlim=c(0,1000))
-plot(sqrt(meanVars), type='l', xlim=c(0,1000))
+plot(mu, type = 'l')
+plot(sqrt(sigma2), type = 'l')
 
 ########## C #########
 # Your plot is very small and hard to see. 

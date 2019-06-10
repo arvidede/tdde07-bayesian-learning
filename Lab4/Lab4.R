@@ -46,8 +46,12 @@ for(phi in phis) {
 
 model <- stan_model('StanNormalModel.stan')
 
-fitX <- sampling(model, data = list(T=200, x=X[1,]), iter = 3000, warmup = 500)
-fitY <- sampling(model, data = list(T=200, x=X[2,]), iter = 3000, warmup = 500)
+warmup=1000
+iter=2000
+niter = 4*(iter-warmup)
+
+fitX <- sampling(model, data = list(T=200, x=X[1,]), iter = iter, warmup = warmup)
+fitY <- sampling(model, data = list(T=200, x=X[2,]), iter = iter, warmup = warmup)
 
 # Print the fitted model
 print(fitX,digits_summary=3) # Extract posterior samples
@@ -63,6 +67,9 @@ lines(mean(postDrawsX$mu), mean(postDrawsX$phi), type='p', col="red")
 plot(postDrawsY$mu, postDrawsY$phi, main = expression(phi ~ '= 0.95'), ylab=expression(phi), xlab=expression(mu))
 lines(mean(postDrawsY$mu), mean(postDrawsY$phi), type='p', col="red")
 # legend('topright', legend=expression(().mean(postDrawsY$mu) ~ ',' ~ ().mean(postDrawsY$phi)))
+
+# plot convergence
+traceplot(model)
 
 ########## C ##########
 library(ggplot2)
